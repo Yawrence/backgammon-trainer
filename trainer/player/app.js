@@ -194,4 +194,5 @@ document
     .getElementById("bdButton")
     .addEventListener("click", () => setFilter("BD"));
 
+drawBoard();
 loadPositions();
