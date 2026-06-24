@@ -1,0 +1,38 @@
+body {
+    background-color: #555;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#trainer {
+    width: 80%;
+    margin: auto;
+}
+
+#board {
+    background-color: #777;
+    padding: 30px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    font-size: 18px;
+}
+
+.hidden {
+    display: none;
+}
+
+.played {
+    color: #ff6666;
+    font-weight: bold;
+}
+
+.best {
+    color: #66ff66;
+    font-weight: bold;
+}
