@@ -1,4 +1,6 @@
 let positions = [];
+let filteredPositions = [];
+
 let currentIndex = 0;
 let revealed = false;
 
@@ -19,12 +21,36 @@ async function loadPositions() {
 
     positions = await response.json();
 
+    filteredPositions = positions;
+
+    showPosition();
+}
+
+function setFilter(player) {
+
+    if (player === "all") {
+
+        filteredPositions = positions;
+
+    } else {
+
+        filteredPositions =
+            positions.filter(
+                p => p.player === player
+            );
+    }
+
+    currentIndex = 0;
+
     showPosition();
 }
 
 function showPosition() {
 
-    const position = positions[currentIndex];
+    if (filteredPositions.length === 0) return;
+
+    const position =
+        filteredPositions[currentIndex];
 
     revealed = false;
 
@@ -32,10 +58,11 @@ function showPosition() {
         "🧠 Auflösung zeigen";
 
     document.getElementById("progressText").textContent =
-        `Position ${currentIndex + 1} / ${positions.length}`;
+        `Position ${currentIndex + 1} / ${filteredPositions.length}`;
 
     const percent =
-        ((currentIndex + 1) / positions.length) * 100;
+        ((currentIndex + 1) /
+            filteredPositions.length) * 100;
 
     document.getElementById("progressFill").style.width =
         percent + "%";
@@ -72,8 +99,6 @@ function showPosition() {
 
 function revealSolution() {
 
-    if (!positions.length) return;
-
     revealed = true;
 
     solution.classList.remove("hidden");
@@ -86,35 +111,53 @@ function nextPosition() {
 
     currentIndex++;
 
-    if (currentIndex >= positions.length) {
+    if (
+        currentIndex >=
+        filteredPositions.length
+    ) {
+
         currentIndex = 0;
     }
 
     showPosition();
 }
 
-revealButton.addEventListener("click", function() {
-
-    if (!revealed) {
-        revealSolution();
-    } else {
-        nextPosition();
-    }
-
-});
-
-document.addEventListener("keydown", function(event) {
-
-    if (event.code === "Space" || event.code === "Enter") {
+revealButton.addEventListener(
+    "click",
+    function() {
 
         if (!revealed) {
+
             revealSolution();
+
         } else {
+
             nextPosition();
+
         }
 
     }
+);
 
-});
+document
+    .getElementById("allButton")
+    .addEventListener(
+        "click",
+        () => setFilter("all")
+    );
+
+document
+    .getElementById("oliButton")
+    .addEventListener(
+        "click",
+        () => setFilter("Oli")
+    );
+
+document
+    .getElementById("bdButton")
+    .addEventListener(
+        "click",
+        () => setFilter("BD")
+    );
 
 loadPositions();
