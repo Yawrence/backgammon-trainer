@@ -54,59 +54,169 @@
     "severity": "zweifelhaft",
     "coach_comment": "Mehr Flexibilität und bessere Entwicklung als der direkte Angriff."
   },
-{
-  "id": 6,
-  "player": "BD",
-  "move_number": 3,
-  "dice": "52",
-  "played_move": "13/11 13/8",
-  "best_move": "24/22 13/8",
-  "equity_loss": 0.038,
-  "severity": "zweifelhaft",
-  "coach_comment": "Der Backchecker sollte früher entwickelt werden."
-},
-{
-  "id": 7,
-  "player": "Oli",
-  "move_number": 2,
-  "dice": "41",
-  "played_move": "24/20 6/5",
-  "best_move": "13/9 6/5",
-  "equity_loss": 0.040,
-  "severity": "zweifelhaft",
-  "coach_comment": "Die Entwicklung vom Midpoint schafft mehr Flexibilität."
-},
-{
-  "id": 8,
-  "player": "BD",
-  "move_number": 4,
-  "dice": "54",
-  "played_move": "13/8 6/2",
-  "best_move": "13/9 13/8",
-  "equity_loss": 0.073,
-  "severity": "schlecht",
-  "coach_comment": "Das Bauen des 2-Punktes ist zu passiv."
-},
-{
-  "id": 9,
-  "player": "Oli",
-  "move_number": 4,
-  "dice": "61",
-  "played_move": "20/14 6/5*",
-  "best_move": "13/7 8/7",
-  "equity_loss": 0.038,
-  "severity": "zweifelhaft",
-  "coach_comment": "GNU bevorzugt Entwicklung statt unmittelbaren Angriff."
-},
-{
-  "id": 10,
-  "player": "BD",
-  "move_number": 5,
-  "dice": "52",
-  "played_move": "bar/23 13/8",
-  "best_move": "bar/20 23/21",
-  "equity_loss": 0.061,
-  "severity": "schlecht",
-  "coach_comment": "Aktives Re-Entry erzeugt mehr Spielchancen."
-}
+  {
+    "id": 6,
+    "player": "BD",
+    "move_number": 3,
+    "dice": "52",
+    "played_move": "13/11 13/8",
+    "best_move": "24/22 13/8",
+    "equity_loss": 0.038,
+    "severity": "zweifelhaft",
+    "coach_comment": "Der Backchecker sollte früher entwickelt werden."
+  },
+  {
+    "id": 7,
+    "player": "Oli",
+    "move_number": 2,
+    "dice": "41",
+    "played_move": "24/20 6/5",
+    "best_move": "13/9 6/5",
+    "equity_loss": 0.040,
+    "severity": "zweifelhaft",
+    "coach_comment": "Die Entwicklung vom Midpoint schafft mehr Flexibilität."
+  },
+  {
+    "id": 8,
+    "player": "BD",
+    "move_number": 4,
+    "dice": "54",
+    "played_move": "13/8 6/2",
+    "best_move": "13/9 13/8",
+    "equity_loss": 0.073,
+    "severity": "schlecht",
+    "coach_comment": "Das Bauen des 2-Punktes ist zu passiv."
+  },
+  {
+    "id": 9,
+    "player": "Oli",
+    "move_number": 4,
+    "dice": "61",
+    "played_move": "20/14 6/5*",
+    "best_move": "13/7 8/7",
+    "equity_loss": 0.038,
+    "severity": "zweifelhaft",
+    "coach_comment": "GNU bevorzugt Entwicklung statt unmittelbaren Angriff."
+  },
+  {
+    "id": 10,
+    "player": "BD",
+    "move_number": 5,
+    "dice": "52",
+    "played_move": "bar/23 13/8",
+    "best_move": "bar/20 23/21",
+    "equity_loss": 0.061,
+    "severity": "schlecht",
+    "coach_comment": "Aktives Re-Entry erzeugt mehr Spielchancen."
+  },
+  {
+    "id": 11,
+    "player": "Oli",
+    "move_number": 2,
+    "dice": "61",
+    "played_move": "13/7 8/7",
+    "best_move": "24/23 24/18",
+    "equity_loss": 0.061,
+    "severity": "zweifelhaft",
+    "coach_comment": "GNU bevorzugt hier die frühe Entwicklung der Backchecker."
+  },
+  {
+    "id": 12,
+    "player": "BD",
+    "move_number": 1,
+    "dice": "64",
+    "played_move": "8/2 6/2",
+    "best_move": "24/14",
+    "equity_loss": 0.013,
+    "severity": "klein",
+    "coach_comment": "Der direkte Laufzug ist flexibler als das frühe Bauen des 2-Punktes."
+  },
+  {
+    "id": 13,
+    "player": "Oli",
+    "move_number": 2,
+    "dice": "54",
+    "played_move": "24/20 13/8",
+    "best_move": "13/9 13/8",
+    "equity_loss": 0.009,
+    "severity": "klein",
+    "coach_comment": "Der Unterschied ist klein; GNU bevorzugt etwas mehr Builder-Koordination."
+  },
+  {
+    "id": 14,
+    "player": "BD",
+    "move_number": 3,
+    "dice": "54",
+    "played_move": "24/20 13/8",
+    "best_move": "24/15",
+    "equity_loss": 0.021,
+    "severity": "klein",
+    "coach_comment": "Der längere Laufzug reduziert Kontakt und vereinfacht die Stellung."
+  },
+  {
+    "id": 15,
+    "player": "Oli",
+    "move_number": 4,
+    "dice": "61",
+    "played_move": "20/14 6/5*",
+    "best_move": "13/7 8/7",
+    "equity_loss": 0.038,
+    "severity": "zweifelhaft",
+    "coach_comment": "Der 7-Punkt ist strategisch wertvoller als ein riskanter Hit."
+  },
+  {
+    "id": 16,
+    "player": "BD",
+    "move_number": 5,
+    "dice": "32",
+    "played_move": "bar/20*",
+    "best_move": "bar/22 13/11*",
+    "equity_loss": 0.072,
+    "severity": "schlecht",
+    "coach_comment": "GNU bevorzugt den kombinierten Einstieg mit aktivem Hit und Entwicklung."
+  },
+  {
+    "id": 17,
+    "player": "Oli",
+    "move_number": 6,
+    "dice": "21",
+    "played_move": "14/11*",
+    "best_move": "21/20 13/11*",
+    "equity_loss": 0.036,
+    "severity": "zweifelhaft",
+    "coach_comment": "Der bessere Zug verbindet Hit und Positionsverbesserung."
+  },
+  {
+    "id": 18,
+    "player": "BD",
+    "move_number": 7,
+    "dice": "61",
+    "played_move": "bar/24 13/7",
+    "best_move": "bar/18",
+    "equity_loss": 0.020,
+    "severity": "klein",
+    "coach_comment": "Der direkte Einstieg nach vorne gibt mehr Beweglichkeit."
+  },
+  {
+    "id": 19,
+    "player": "Oli",
+    "move_number": 2,
+    "dice": "43",
+    "played_move": "24/21 24/20",
+    "best_move": "24/21 13/9",
+    "equity_loss": 0.002,
+    "severity": "klein",
+    "coach_comment": "Sehr kleiner Unterschied; GNU mag die Mischung aus Split und Builder."
+  },
+  {
+    "id": 20,
+    "player": "BD",
+    "move_number": 3,
+    "dice": "54",
+    "played_move": "24/20 18/13",
+    "best_move": "18/13 8/4*",
+    "equity_loss": 0.005,
+    "severity": "klein",
+    "coach_comment": "Der Hit auf dem 4-Punkt ist leicht aktiver, der Fehler ist aber klein."
+  }
 ]
