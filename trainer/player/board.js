@@ -1,4 +1,3 @@
-
 function drawBoard() {
     const canvas = document.getElementById("backgammonBoard");
     const ctx = canvas.getContext("2d");
@@ -6,106 +5,74 @@ function drawBoard() {
     const width = canvas.width;
     const height = canvas.height;
 
-    const boardColor = "#777777";
-    const pointOrange = "#d98a2b";
-    const pointWhite = "#f4f1e8";
-    const borderColor = "#333333";
+    const board = {
+        bg: "#777777",
+        border: "#2f2f2f",
+        bar: "#5f5f5f",
+        orange: "#d98a2b",
+        white: "#f4f1e8"
+    };
 
     ctx.clearRect(0, 0, width, height);
 
-    ctx.fillStyle = boardColor;
+    ctx.fillStyle = board.bg;
     ctx.fillRect(0, 0, width, height);
 
-    ctx.strokeStyle = borderColor;
-    ctx.lineWidth = 6;
-    ctx.strokeRect(3, 3, width - 6, height - 6);
+    ctx.lineWidth = 8;
+    ctx.strokeStyle = board.border;
+    ctx.strokeRect(4, 4, width - 8, height - 8);
 
-    const margin = 30;
-    const barWidth = 36;
-    const playableWidth = width - 2 * margin - barWidth;
-    const pointWidth = playableWidth / 12;
+    const margin = 35;
+    const barWidth = 44;
+    const innerWidth = width - margin * 2 - barWidth;
+    const pointWidth = innerWidth / 12;
     const pointHeight = height * 0.38;
 
-    function drawTriangle(x, top, color) {
-        ctx.fillStyle = color;
+    function pointX(i) {
+        return margin + i * pointWidth + (i >= 6 ? barWidth : 0);
+    }
 
-        if (top) {
-            ctx.beginPath();
+    function triangle(x, isTop, color) {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+
+        if (isTop) {
             ctx.moveTo(x, margin);
             ctx.lineTo(x + pointWidth, margin);
             ctx.lineTo(x + pointWidth / 2, margin + pointHeight);
-            ctx.closePath();
-            ctx.fill();
         } else {
-            ctx.beginPath();
             ctx.moveTo(x, height - margin);
             ctx.lineTo(x + pointWidth, height - margin);
             ctx.lineTo(x + pointWidth / 2, height - margin - pointHeight);
-            ctx.closePath();
-            ctx.fill();
         }
+
+        ctx.closePath();
+        ctx.fill();
     }
 
     for (let i = 0; i < 12; i++) {
-        const beforeBar = i < 6;
-        const x =
-            margin +
-            i * pointWidth +
-            (beforeBar ? 0 : barWidth);
+        const topColor = i % 2 === 0 ? board.orange : board.white;
+        const bottomColor = i % 2 === 0 ? board.white : board.orange;
 
-        const color =
-            i % 2 === 0 ? pointOrange : pointWhite;
-
-        drawTriangle(x, true, color);
-        drawTriangle(x, false, color === pointOrange ? pointWhite : pointOrange);
+        triangle(pointX(i), true, topColor);
+        triangle(pointX(i), false, bottomColor);
     }
 
     const barX = margin + 6 * pointWidth;
 
-    ctx.fillStyle = "#555555";
+    ctx.fillStyle = board.bar;
     ctx.fillRect(barX, 0, barWidth, height);
 
-    ctx.strokeStyle = borderColor;
+    ctx.strokeStyle = board.border;
     ctx.lineWidth = 3;
     ctx.strokeRect(barX, 0, barWidth, height);
 
-    drawDemoCheckers(ctx, width, height, margin, pointWidth, barWidth);
-}
+    ctx.fillStyle = "#dddddd";
+    ctx.font = "18px Arial";
+    ctx.textAlign = "center";
 
-function drawChecker(ctx, x, y, radius, color) {
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2);
-    ctx.fillStyle = color;
-    ctx.fill();
+    ctx.fillText("BAR", barX + barWidth / 2, height / 2);
 
-    ctx.strokeStyle = "#222222";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-}
-
-function drawDemoCheckers(ctx, width, height, margin, pointWidth, barWidth) {
-    const oliColor = "#444444";
-    const bdColor = "#dddddd";
-
-    const radius = 18;
-
-    function pointCenter(index) {
-        const beforeBar = index < 6;
-        return (
-            margin +
-            index * pointWidth +
-            (beforeBar ? 0 : barWidth) +
-            pointWidth / 2
-        );
-    }
-
-    // Demo-Steine unten links
-    drawChecker(ctx, pointCenter(0), height - 50, radius, oliColor);
-    drawChecker(ctx, pointCenter(0), height - 90, radius, oliColor);
-    drawChecker(ctx, pointCenter(0), height - 130, radius, oliColor);
-
-    // Demo-Steine oben rechts
-    drawChecker(ctx, pointCenter(11), 50, radius, bdColor);
-    drawChecker(ctx, pointCenter(11), 90, radius, bdColor);
-    drawChecker(ctx, pointCenter(11), 130, radius, bdColor);
+    ctx.fillStyle = "rgba(255,255,255,0.08)";
+    ctx.fillRect(margin, margin, width - 2 * margin, height - 2 * margin);
 }
