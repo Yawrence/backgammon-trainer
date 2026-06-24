@@ -27,9 +27,11 @@
     <div id="board">
         <h2>Was würdest Du spielen?</h2>
 
-        <div id="boardImageBox" class="hidden">
-            <img id="boardImage" src="" alt="Backgammon Position">
-        </div>
+        <canvas
+            id="backgammonBoard"
+            width="900"
+            height="520">
+        </canvas>
 
         <p id="positionText">Position wird geladen ...</p>
     </div>
@@ -40,6 +42,7 @@
 
 </div>
 
+<script src="board.js"></script>
 <script src="app.js"></script>
 
 </body>
