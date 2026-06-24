@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
     <meta charset="UTF-8">
     <title>Backgammon Trainer</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
 <div id="trainer">
@@ -14,40 +12,29 @@
     <h1>🎲 Backgammon Trainer</h1>
 
     <div id="filterBar">
-
         <button id="allButton">🎲 Alle</button>
-
         <button id="oliButton">👤 Oli</button>
-
         <button id="bdButton">👤 BD</button>
-
     </div>
 
     <div id="progress">
-
-        <div id="progressText">
-            Position 1 / 10
-        </div>
-
+        <div id="progressText">Position 1 / 20</div>
         <div id="progressBar">
             <div id="progressFill"></div>
         </div>
-
     </div>
 
     <div id="board">
-
         <h2>Was würdest Du spielen?</h2>
 
-        <p id="positionText">
-            Position wird geladen ...
-        </p>
+        <div id="boardImageBox" class="hidden">
+            <img id="boardImage" src="" alt="Backgammon Position">
+        </div>
 
+        <p id="positionText">Position wird geladen ...</p>
     </div>
 
-    <button id="revealButton">
-        🧠 Auflösung zeigen
-    </button>
+    <button id="revealButton">🧠 Auflösung zeigen</button>
 
     <div id="solution" class="hidden"></div>
 
