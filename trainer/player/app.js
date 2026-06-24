@@ -14,28 +14,29 @@ const revealButton =
 const solution =
     document.getElementById("solution");
 
-async function loadPositions() {
+const boardImageBox =
+    document.getElementById("boardImageBox");
 
+const boardImage =
+    document.getElementById("boardImage");
+
+async function loadPositions() {
     const response = await fetch(
         "../../data/training_sets/training_positions.json"
     );
 
     positions = await response.json();
-
     filteredPositions = positions;
 
     showPosition();
 }
 
 function setFilter(player) {
-
     if (player === "all") {
         filteredPositions = positions;
     } else {
         filteredPositions =
-            positions.filter(
-                p => p.player === player
-            );
+            positions.filter(p => p.player === player);
     }
 
     currentIndex = 0;
@@ -46,7 +47,6 @@ function setFilter(player) {
 }
 
 function showPosition() {
-
     if (filteredPositions.length === 0) return;
 
     trainingFinished = false;
@@ -59,21 +59,25 @@ function showPosition() {
     revealButton.textContent =
         "🧠 Auflösung zeigen";
 
-    revealButton.style.display =
-        "inline-block";
-
     document.getElementById("progressText").textContent =
         `Position ${currentIndex + 1} / ${filteredPositions.length}`;
 
     const percent =
-        ((currentIndex + 1) /
-            filteredPositions.length) * 100;
+        ((currentIndex + 1) / filteredPositions.length) * 100;
 
     document.getElementById("progressFill").style.width =
         percent + "%";
 
     positionText.textContent =
         `${position.player} am Zug – Würfel ${position.dice}`;
+
+    if (position.image) {
+        boardImage.src = position.image;
+        boardImageBox.classList.remove("hidden");
+    } else {
+        boardImage.src = "";
+        boardImageBox.classList.add("hidden");
+    }
 
     solution.classList.add("hidden");
 
@@ -103,11 +107,9 @@ function showPosition() {
 }
 
 function revealSolution() {
-
     if (trainingFinished) return;
 
     revealed = true;
-
     solution.classList.remove("hidden");
 
     revealButton.textContent =
@@ -115,14 +117,9 @@ function revealSolution() {
 }
 
 function nextPosition() {
-
     currentIndex++;
 
-    if (
-        currentIndex >=
-        filteredPositions.length
-    ) {
-
+    if (currentIndex >= filteredPositions.length) {
         showFinishedScreen();
         return;
     }
@@ -131,7 +128,6 @@ function nextPosition() {
 }
 
 function showFinishedScreen() {
-
     trainingFinished = true;
     revealed = false;
 
@@ -143,6 +139,9 @@ function showFinishedScreen() {
 
     positionText.textContent =
         "🎉 Training abgeschlossen";
+
+    boardImage.src = "";
+    boardImageBox.classList.add("hidden");
 
     solution.classList.remove("hidden");
 
@@ -163,7 +162,6 @@ function showFinishedScreen() {
 }
 
 function restartTraining() {
-
     currentIndex = 0;
     revealed = false;
     trainingFinished = false;
@@ -171,43 +169,29 @@ function restartTraining() {
     showPosition();
 }
 
-revealButton.addEventListener(
-    "click",
-    function() {
-
-        if (trainingFinished) {
-            restartTraining();
-            return;
-        }
-
-        if (!revealed) {
-            revealSolution();
-        } else {
-            nextPosition();
-        }
-
+revealButton.addEventListener("click", function() {
+    if (trainingFinished) {
+        restartTraining();
+        return;
     }
-);
+
+    if (!revealed) {
+        revealSolution();
+    } else {
+        nextPosition();
+    }
+});
 
 document
     .getElementById("allButton")
-    .addEventListener(
-        "click",
-        () => setFilter("all")
-    );
+    .addEventListener("click", () => setFilter("all"));
 
 document
     .getElementById("oliButton")
-    .addEventListener(
-        "click",
-        () => setFilter("Oli")
-    );
+    .addEventListener("click", () => setFilter("Oli"));
 
 document
     .getElementById("bdButton")
-    .addEventListener(
-        "click",
-        () => setFilter("BD")
-    );
+    .addEventListener("click", () => setFilter("BD"));
 
 loadPositions();
