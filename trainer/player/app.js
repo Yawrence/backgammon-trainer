@@ -3,6 +3,7 @@ let filteredPositions = [];
 
 let currentIndex = 0;
 let revealed = false;
+let trainingFinished = false;
 
 const positionText =
     document.getElementById("positionText");
@@ -29,11 +30,8 @@ async function loadPositions() {
 function setFilter(player) {
 
     if (player === "all") {
-
         filteredPositions = positions;
-
     } else {
-
         filteredPositions =
             positions.filter(
                 p => p.player === player
@@ -41,6 +39,8 @@ function setFilter(player) {
     }
 
     currentIndex = 0;
+    revealed = false;
+    trainingFinished = false;
 
     showPosition();
 }
@@ -49,6 +49,8 @@ function showPosition() {
 
     if (filteredPositions.length === 0) return;
 
+    trainingFinished = false;
+
     const position =
         filteredPositions[currentIndex];
 
@@ -56,6 +58,9 @@ function showPosition() {
 
     revealButton.textContent =
         "🧠 Auflösung zeigen";
+
+    revealButton.style.display =
+        "inline-block";
 
     document.getElementById("progressText").textContent =
         `Position ${currentIndex + 1} / ${filteredPositions.length}`;
@@ -99,6 +104,8 @@ function showPosition() {
 
 function revealSolution() {
 
+    if (trainingFinished) return;
+
     revealed = true;
 
     solution.classList.remove("hidden");
@@ -116,8 +123,50 @@ function nextPosition() {
         filteredPositions.length
     ) {
 
-        currentIndex = 0;
+        showFinishedScreen();
+        return;
     }
+
+    showPosition();
+}
+
+function showFinishedScreen() {
+
+    trainingFinished = true;
+    revealed = false;
+
+    document.getElementById("progressText").textContent =
+        "Training abgeschlossen";
+
+    document.getElementById("progressFill").style.width =
+        "100%";
+
+    positionText.textContent =
+        "🎉 Training abgeschlossen";
+
+    solution.classList.remove("hidden");
+
+    solution.innerHTML = `
+        <h3>🏆 Gut gemacht!</h3>
+
+        <p>
+            Du hast ${filteredPositions.length} Positionen bearbeitet.
+        </p>
+
+        <p>
+            Wähle einen Filter oder starte das Training neu.
+        </p>
+    `;
+
+    revealButton.textContent =
+        "🔄 Neu starten";
+}
+
+function restartTraining() {
+
+    currentIndex = 0;
+    revealed = false;
+    trainingFinished = false;
 
     showPosition();
 }
@@ -126,14 +175,15 @@ revealButton.addEventListener(
     "click",
     function() {
 
+        if (trainingFinished) {
+            restartTraining();
+            return;
+        }
+
         if (!revealed) {
-
             revealSolution();
-
         } else {
-
             nextPosition();
-
         }
 
     }
