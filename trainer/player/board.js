@@ -27,8 +27,8 @@ class BackgammonBoard {
             pointWidth: 78,
             pointTipTop: 392,
             pointTipBottom: 448,
-            checkerRadius: 35,
-            checkerGap: 70
+            checkerRadius: 30,
+            checkerGap: 64
         };
     }
 
@@ -156,15 +156,9 @@ class BackgammonBoard {
         const cx =
             x1 + 36;
 
-        let points;
-
-        if (top) {
-            points =
-                `${x1},86 ${x2},86 ${cx},392`;
-        } else {
-            points =
-                `${x1},754 ${x2},754 ${cx},448`;
-        }
+        const points = top
+            ? `${x1},86 ${x2},86 ${cx},392`
+            : `${x1},754 ${x2},754 ${cx},448`;
 
         this.createElement("polygon", {
             points,
@@ -173,9 +167,6 @@ class BackgammonBoard {
     }
 
     getPointCenter(point) {
-        // point 1-6 unten rechts, 7-12 unten links,
-        // 13-18 oben links, 19-24 oben rechts
-
         let index;
         let top;
 
@@ -237,7 +228,7 @@ class BackgammonBoard {
         this.createElement("circle", {
             cx: x,
             cy: y,
-            r: 27,
+            r: this.geometry.checkerRadius - 8,
             fill: "none",
             stroke: "rgba(255,255,255,0.16)",
             "stroke-width": 2
