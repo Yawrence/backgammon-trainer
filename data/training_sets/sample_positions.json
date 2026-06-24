@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "player": "Oli",
+    "move_number": 2,
+    "dice": "41",
+    "played_move": "24/20 6/5",
+    "best_move": "13/9 6/5",
+    "equity_loss": 0.040,
+    "severity": "zweifelhaft",
+    "coach_comment": "Die Entwicklung vom 13-Punkt ist flexibler als das Vorziehen des Backcheckers."
+  },
+  {
+    "id": 2,
+    "player": "BD",
+    "move_number": 4,
+    "dice": "54",
+    "played_move": "13/8 6/2",
+    "best_move": "13/9 13/8",
+    "equity_loss": 0.073,
+    "severity": "schlecht",
+    "coach_comment": "Der Backchecker sollte entwickelt werden. Das Bauen des 2-Punktes ist hier zu passiv."
+  },
+  {
+    "id": 3,
+    "player": "Oli",
+    "move_number": 4,
+    "dice": "61",
+    "played_move": "20/14 6/5*",
+    "best_move": "13/7 8/7",
+    "equity_loss": 0.038,
+    "severity": "zweifelhaft",
+    "coach_comment": "GNU bevorzugt die bessere Entwicklung und weniger taktisches Risiko."
+  }
+]
