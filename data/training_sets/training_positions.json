@@ -53,5 +53,60 @@
     "equity_loss": 0.038,
     "severity": "zweifelhaft",
     "coach_comment": "Mehr Flexibilität und bessere Entwicklung als der direkte Angriff."
-  }
+  },
+{
+  "id": 6,
+  "player": "BD",
+  "move_number": 3,
+  "dice": "52",
+  "played_move": "13/11 13/8",
+  "best_move": "24/22 13/8",
+  "equity_loss": 0.038,
+  "severity": "zweifelhaft",
+  "coach_comment": "Der Backchecker sollte früher entwickelt werden."
+},
+{
+  "id": 7,
+  "player": "Oli",
+  "move_number": 2,
+  "dice": "41",
+  "played_move": "24/20 6/5",
+  "best_move": "13/9 6/5",
+  "equity_loss": 0.040,
+  "severity": "zweifelhaft",
+  "coach_comment": "Die Entwicklung vom Midpoint schafft mehr Flexibilität."
+},
+{
+  "id": 8,
+  "player": "BD",
+  "move_number": 4,
+  "dice": "54",
+  "played_move": "13/8 6/2",
+  "best_move": "13/9 13/8",
+  "equity_loss": 0.073,
+  "severity": "schlecht",
+  "coach_comment": "Das Bauen des 2-Punktes ist zu passiv."
+},
+{
+  "id": 9,
+  "player": "Oli",
+  "move_number": 4,
+  "dice": "61",
+  "played_move": "20/14 6/5*",
+  "best_move": "13/7 8/7",
+  "equity_loss": 0.038,
+  "severity": "zweifelhaft",
+  "coach_comment": "GNU bevorzugt Entwicklung statt unmittelbaren Angriff."
+},
+{
+  "id": 10,
+  "player": "BD",
+  "move_number": 5,
+  "dice": "52",
+  "played_move": "bar/23 13/8",
+  "best_move": "bar/20 23/21",
+  "equity_loss": 0.061,
+  "severity": "schlecht",
+  "coach_comment": "Aktives Re-Entry erzeugt mehr Spielchancen."
+}
 ]
