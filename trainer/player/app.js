@@ -9,7 +9,7 @@ const nextButton = document.getElementById("nextButton");
 const solution = document.getElementById("solution");
 
 async function loadPositions() {
-    const response = await fetch("../../data/training_sets/sample_positions.json");
+    const response = await fetch("../../data/training_sets/training_positions.json");
     positions = await response.json();
     showPosition();
 }
