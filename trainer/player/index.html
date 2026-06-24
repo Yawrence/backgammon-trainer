@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <title>Backgammon Trainer</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
 <div id="trainer">
@@ -12,46 +14,32 @@
     <h1>🎲 Backgammon Trainer</h1>
 
     <div id="progress">
-        Position 1 / 5
+
+        <div id="progressText">
+            Position 1 / 10
+        </div>
+
+        <div id="progressBar">
+            <div id="progressFill"></div>
+        </div>
+
     </div>
 
     <div id="board">
+
         <h2>Was würdest Du spielen?</h2>
 
         <p id="positionText">
-            Oli am Zug – Würfel 54
+            Position wird geladen ...
         </p>
+
     </div>
 
     <button id="revealButton">
-        Auflösung anzeigen
+        🧠 Auflösung zeigen
     </button>
 
-    <div id="solution" class="hidden">
-
-        <h3>GNU Empfehlung</h3>
-
-        <p class="played">
-            Gespielt: 13/9 13/8
-        </p>
-
-        <p class="best">
-            GNU: 24/20 6/1*
-        </p>
-
-        <p>
-            Equity-Verlust: 0.031
-        </p>
-
-        <p>
-            GNU bevorzugt den aggressiven Hit auf dem 1-Punkt.
-        </p>
-
-        <button id="nextButton">
-            Nächste Position
-        </button>
-
-    </div>
+    <div id="solution" class="hidden"></div>
 
 </div>
 
