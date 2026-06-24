@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "player": "Oli",
+    "move_number": 2,
+    "dice": "54",
+    "played_move": "13/9 13/8",
+    "best_move": "24/20 6/1*",
+    "equity_loss": 0.031,
+    "severity": "zweifelhaft",
+    "coach_comment": "GNU bevorzugt den aggressiven Hit statt der passiven Entwicklung."
+  },
+  {
+    "id": 2,
+    "player": "BD",
+    "move_number": 5,
+    "dice": "52",
+    "played_move": "bar/23 13/8",
+    "best_move": "bar/20 23/21",
+    "equity_loss": 0.061,
+    "severity": "schlecht",
+    "coach_comment": "Aktive Bar-Eingabe und Entwicklung des Backcheckers sind stärker."
+  },
+  {
+    "id": 3,
+    "player": "Oli",
+    "move_number": 6,
+    "dice": "21",
+    "played_move": "24/23 9/7",
+    "best_move": "7/5 6/5",
+    "equity_loss": 0.037,
+    "severity": "zweifelhaft",
+    "coach_comment": "GNU bevorzugt die Verbesserung der Boardstruktur."
+  },
+  {
+    "id": 4,
+    "player": "BD",
+    "move_number": 4,
+    "dice": "54",
+    "played_move": "13/8 6/2",
+    "best_move": "13/9 13/8",
+    "equity_loss": 0.073,
+    "severity": "schlecht",
+    "coach_comment": "Backchecker entwickeln statt passiv den 2-Punkt bauen."
+  },
+  {
+    "id": 5,
+    "player": "Oli",
+    "move_number": 4,
+    "dice": "61",
+    "played_move": "20/14 6/5*",
+    "best_move": "13/7 8/7",
+    "equity_loss": 0.038,
+    "severity": "zweifelhaft",
+    "coach_comment": "Mehr Flexibilität und bessere Entwicklung als der direkte Angriff."
+  }
+]
