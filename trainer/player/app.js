@@ -2,10 +2,14 @@ let positions = [];
 let currentIndex = 0;
 let revealed = false;
 
-const progress = document.getElementById("progress");
-const positionText = document.getElementById("positionText");
-const revealButton = document.getElementById("revealButton");
-const solution = document.getElementById("solution");
+const positionText =
+    document.getElementById("positionText");
+
+const revealButton =
+    document.getElementById("revealButton");
+
+const solution =
+    document.getElementById("solution");
 
 async function loadPositions() {
 
@@ -24,10 +28,17 @@ function showPosition() {
 
     revealed = false;
 
-    revealButton.textContent = "🧠 Auflösung zeigen";
+    revealButton.textContent =
+        "🧠 Auflösung zeigen";
 
-    progress.textContent =
+    document.getElementById("progressText").textContent =
         `Position ${currentIndex + 1} / ${positions.length}`;
+
+    const percent =
+        ((currentIndex + 1) / positions.length) * 100;
+
+    document.getElementById("progressFill").style.width =
+        percent + "%";
 
     positionText.textContent =
         `${position.player} am Zug – Würfel ${position.dice}`;
@@ -67,7 +78,8 @@ function revealSolution() {
 
     solution.classList.remove("hidden");
 
-    revealButton.textContent = "➡️ Weiter";
+    revealButton.textContent =
+        "➡️ Weiter";
 }
 
 function nextPosition() {
