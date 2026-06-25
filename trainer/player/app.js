@@ -178,14 +178,23 @@ function revealSolution() {
         position.played_move
     );
 
-    window.backgammonBoard.drawPosition(afterPlayedMove);
-
     positionText.textContent =
-        `Nach gespieltem Zug: ${position.played_move}`;
+        `Gespielter Zug: ${position.played_move}`;
 
-    revealed = true;
-    solution.classList.remove("hidden");
-    revealButton.textContent = "➡️ Weiter";
+    revealButton.disabled = true;
+
+    window.backgammonBoard.drawPosition(startPosition);
+
+    setTimeout(function() {
+
+        window.backgammonBoard.drawPosition(afterPlayedMove);
+
+        revealed = true;
+        solution.classList.remove("hidden");
+        revealButton.textContent = "➡️ Weiter";
+        revealButton.disabled = false;
+
+    }, 300);
 }
 
 function nextPosition() {
@@ -227,6 +236,7 @@ function showFinishedScreen() {
     `;
 
     revealButton.textContent = "🔄 Neu starten";
+    revealButton.disabled = false;
 }
 
 function restartTraining() {
@@ -255,4 +265,11 @@ document
     .addEventListener("click", () => setFilter("all"));
 
 document
-    .getElementById
+    .getElementById("oliButton")
+    .addEventListener("click", () => setFilter("Oli"));
+
+document
+    .getElementById("bdButton")
+    .addEventListener("click", () => setFilter("BD"));
+
+loadPositions();
