@@ -44,8 +44,59 @@ async function loadPositions() {
     showPosition();
 }
 
+function clonePosition(position) {
+    return JSON.parse(JSON.stringify(position));
+}
+
 function getBoardPosition(position) {
     return boardPositions[position.id] || defaultPosition;
+}
+
+function applyMove(boardPosition, player, moveText) {
+    const newPosition = clonePosition(boardPosition);
+
+    const parts = moveText
+        .replaceAll("*", "")
+        .split(" ");
+
+    for (const part of parts) {
+        if (!part.includes("/")) continue;
+
+        const [fromText, toText] = part.split("/");
+
+        if (fromText === "bar") continue;
+
+        const from = Number(fromText);
+        const to = Number(toText);
+
+        if (!from || !to) continue;
+
+        if (!newPosition[from]) {
+            newPosition[from] = {};
+        }
+
+        if (!newPosition[to]) {
+            newPosition[to] = {};
+        }
+
+        if (!newPosition[from][player]) {
+            continue;
+        }
+
+        newPosition[from][player]--;
+
+        if (newPosition[from][player] <= 0) {
+            delete newPosition[from][player];
+        }
+
+        if (!newPosition[to][player]) {
+            newPosition[to][player] = 0;
+        }
+
+        newPosition[to][player]++;
+    }
+
+    return newPosition;
 }
 
 function setFilter(player) {
@@ -116,6 +167,21 @@ function showPosition() {
 
 function revealSolution() {
     if (trainingFinished) return;
+
+    const position = filteredPositions[currentIndex];
+
+    const startPosition = getBoardPosition(position);
+
+    const afterPlayedMove = applyMove(
+        startPosition,
+        position.player,
+        position.played_move
+    );
+
+    window.backgammonBoard.drawPosition(afterPlayedMove);
+
+    positionText.textContent =
+        `Nach gespieltem Zug: ${position.played_move}`;
 
     revealed = true;
     solution.classList.remove("hidden");
@@ -189,11 +255,4 @@ document
     .addEventListener("click", () => setFilter("all"));
 
 document
-    .getElementById("oliButton")
-    .addEventListener("click", () => setFilter("Oli"));
-
-document
-    .getElementById("bdButton")
-    .addEventListener("click", () => setFilter("BD"));
-
-loadPositions();
+    .getElementById
