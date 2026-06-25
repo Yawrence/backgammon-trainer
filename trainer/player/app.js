@@ -5,25 +5,38 @@ let currentIndex = 0;
 let revealed = false;
 let trainingFinished = false;
 
-const positionText =
-    document.getElementById("positionText");
+const positionText = document.getElementById("positionText");
+const revealButton = document.getElementById("revealButton");
+const solution = document.getElementById("solution");
 
-const revealButton =
-    document.getElementById("revealButton");
+const boardPositions = {
+    1: {
+        24: { BD: 1 },
+        23: { BD: 1 },
+        13: { Oli: 5 },
+        9: { BD: 1 },
+        8: { Oli: 3 },
+        6: { Oli: 5 },
+        1: { Oli: 2 },
+        12: { BD: 5 },
+        17: { BD: 3 },
+        19: { BD: 4 }
+    }
+};
 
-const solution =
-    document.getElementById("solution");
-
-const boardImageBox =
-    document.getElementById("boardImageBox");
-
-const boardImage =
-    document.getElementById("boardImage");
+const defaultPosition = {
+    24: { BD: 2 },
+    13: { Oli: 5 },
+    8: { Oli: 3 },
+    6: { Oli: 5 },
+    1: { Oli: 2 },
+    12: { BD: 5 },
+    17: { BD: 3 },
+    19: { BD: 5 }
+};
 
 async function loadPositions() {
-    const response = await fetch(
-        "../../data/training_sets/training_positions.json"
-    );
+    const response = await fetch("../../data/training_sets/training_positions.json");
 
     positions = await response.json();
     filteredPositions = positions;
@@ -31,13 +44,15 @@ async function loadPositions() {
     showPosition();
 }
 
+function getBoardPosition(position) {
+    return boardPositions[position.id] || defaultPosition;
+}
+
 function setFilter(player) {
-    if (player === "all") {
-        filteredPositions = positions;
-    } else {
-        filteredPositions =
-            positions.filter(p => p.player === player);
-    }
+    filteredPositions =
+        player === "all"
+            ? positions
+            : positions.filter(p => p.player === player);
 
     currentIndex = 0;
     revealed = false;
@@ -51,13 +66,10 @@ function showPosition() {
 
     trainingFinished = false;
 
-    const position =
-        filteredPositions[currentIndex];
+    const position = filteredPositions[currentIndex];
 
     revealed = false;
-
-    revealButton.textContent =
-        "🧠 Auflösung zeigen";
+    revealButton.textContent = "🧠 Auflösung zeigen";
 
     document.getElementById("progressText").textContent =
         `Position ${currentIndex + 1} / ${filteredPositions.length}`;
@@ -71,13 +83,9 @@ function showPosition() {
     positionText.textContent =
         `${position.player} am Zug – Würfel ${position.dice}`;
 
-    if (position.image) {
-        boardImage.src = position.image;
-        boardImageBox.classList.remove("hidden");
-    } else {
-        boardImage.src = "";
-        boardImageBox.classList.add("hidden");
-    }
+    window.backgammonBoard.drawPosition(
+        getBoardPosition(position)
+    );
 
     solution.classList.add("hidden");
 
@@ -111,9 +119,7 @@ function revealSolution() {
 
     revealed = true;
     solution.classList.remove("hidden");
-
-    revealButton.textContent =
-        "➡️ Weiter";
+    revealButton.textContent = "➡️ Weiter";
 }
 
 function nextPosition() {
@@ -140,9 +146,6 @@ function showFinishedScreen() {
     positionText.textContent =
         "🎉 Training abgeschlossen";
 
-    boardImage.src = "";
-    boardImageBox.classList.add("hidden");
-
     solution.classList.remove("hidden");
 
     solution.innerHTML = `
@@ -157,8 +160,7 @@ function showFinishedScreen() {
         </p>
     `;
 
-    revealButton.textContent =
-        "🔄 Neu starten";
+    revealButton.textContent = "🔄 Neu starten";
 }
 
 function restartTraining() {
@@ -194,5 +196,4 @@ document
     .getElementById("bdButton")
     .addEventListener("click", () => setFilter("BD"));
 
-drawBoard();
 loadPositions();
