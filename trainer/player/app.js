@@ -52,6 +52,29 @@ function getBoardPosition(position) {
     return boardPositions[position.id] || defaultPosition;
 }
 
+function parseFirstMove(moveText) {
+    const parts = moveText
+        .replaceAll("*", "")
+        .split(" ");
+
+    for (const part of parts) {
+        if (!part.includes("/")) continue;
+
+        const [fromText, toText] = part.split("/");
+
+        if (fromText === "bar") continue;
+
+        const from = Number(fromText);
+        const to = Number(toText);
+
+        if (from && to) {
+            return { from, to };
+        }
+    }
+
+    return null;
+}
+
 function applyMove(boardPosition, player, moveText) {
     const newPosition = clonePosition(boardPosition);
 
@@ -71,17 +94,10 @@ function applyMove(boardPosition, player, moveText) {
 
         if (!from || !to) continue;
 
-        if (!newPosition[from]) {
-            newPosition[from] = {};
-        }
+        if (!newPosition[from]) newPosition[from] = {};
+        if (!newPosition[to]) newPosition[to] = {};
 
-        if (!newPosition[to]) {
-            newPosition[to] = {};
-        }
-
-        if (!newPosition[from][player]) {
-            continue;
-        }
+        if (!newPosition[from][player]) continue;
 
         newPosition[from][player]--;
 
@@ -120,6 +136,7 @@ function showPosition() {
     const position = filteredPositions[currentIndex];
 
     revealed = false;
+    revealButton.disabled = false;
     revealButton.textContent = "🧠 Auflösung zeigen";
 
     document.getElementById("progressText").textContent =
@@ -168,33 +185,48 @@ function showPosition() {
 function revealSolution() {
     if (trainingFinished) return;
 
-    const position = filteredPositions[currentIndex];
+    const position =
+        filteredPositions[currentIndex];
 
-    const startPosition = getBoardPosition(position);
+    const startPosition =
+        getBoardPosition(position);
 
-    const afterPlayedMove = applyMove(
-        startPosition,
-        position.player,
-        position.played_move
-    );
+    const afterPlayedMove =
+        applyMove(
+            startPosition,
+            position.player,
+            position.played_move
+        );
+
+    const firstMove =
+        parseFirstMove(position.played_move);
 
     positionText.textContent =
         `Gespielter Zug: ${position.played_move}`;
 
     revealButton.disabled = true;
 
-    window.backgammonBoard.drawPosition(startPosition);
-
-    setTimeout(function() {
-
+    if (!firstMove) {
         window.backgammonBoard.drawPosition(afterPlayedMove);
+        finishReveal();
+        return;
+    }
 
-        revealed = true;
-        solution.classList.remove("hidden");
-        revealButton.textContent = "➡️ Weiter";
-        revealButton.disabled = false;
+    window.backgammonBoard.animateMove(
+        startPosition,
+        afterPlayedMove,
+        position.player,
+        firstMove.from,
+        firstMove.to,
+        finishReveal
+    );
+}
 
-    }, 300);
+function finishReveal() {
+    revealed = true;
+    solution.classList.remove("hidden");
+    revealButton.textContent = "➡️ Weiter";
+    revealButton.disabled = false;
 }
 
 function nextPosition() {
