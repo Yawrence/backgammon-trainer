@@ -157,29 +157,7 @@ function showPosition() {
 
     solution.classList.add("hidden");
 
-    solution.innerHTML = `
-        <h3>GNU Empfehlung</h3>
-
-        <p class="played">
-            Gespielt: ${position.played_move}
-        </p>
-
-        <p class="best">
-            GNU: ${position.best_move}
-        </p>
-
-        <p>
-            Fehlerklasse: ${position.severity}
-        </p>
-
-        <p>
-            Equity-Verlust: ${position.equity_loss}
-        </p>
-
-        <p>
-            ${position.coach_comment}
-        </p>
-    `;
+    solution.innerHTML = "";
 }
 
 function revealSolution() {
@@ -202,13 +180,13 @@ function revealSolution() {
         parseFirstMove(position.played_move);
 
     positionText.textContent =
-        `Gespielter Zug: ${position.played_move}`;
+        `🔴 Gespielter Zug: ${position.played_move}`;
 
     revealButton.disabled = true;
 
     if (!firstMove) {
         window.backgammonBoard.drawPosition(afterPlayedMove);
-        finishReveal();
+        finishReveal(position);
         return;
     }
 
@@ -218,13 +196,41 @@ function revealSolution() {
         position.player,
         firstMove.from,
         firstMove.to,
-        finishReveal
+        function() {
+            finishReveal(position);
+        }
     );
 }
 
-function finishReveal() {
+function finishReveal(position) {
     revealed = true;
+
     solution.classList.remove("hidden");
+
+    solution.innerHTML = `
+        <h3>Auflösung</h3>
+
+        <p class="played">
+            🔴 Gespielt: ${position.played_move}
+        </p>
+
+        <p class="best">
+            🟢 GNU: ${position.best_move}
+        </p>
+
+        <p>
+            Fehlerklasse: ${position.severity}
+        </p>
+
+        <p>
+            Equity-Verlust: ${position.equity_loss}
+        </p>
+
+        <p>
+            ${position.coach_comment}
+        </p>
+    `;
+
     revealButton.textContent = "➡️ Weiter";
     revealButton.disabled = false;
 }
