@@ -8,6 +8,7 @@ let trainingFinished = false;
 const positionText = document.getElementById("positionText");
 const revealButton = document.getElementById("revealButton");
 const solution = document.getElementById("solution");
+
 const boardPositions = {
     1: {
         24: { Oli: 2 },
@@ -34,25 +35,22 @@ const defaultPosition = {
     19: { BD: 5 }
 };
 
-
-const defaultPosition = {
-    24: { BD: 2 },
-    13: { Oli: 5 },
-    8: { Oli: 3 },
-    6: { Oli: 5 },
-    1: { Oli: 2 },
-    12: { BD: 5 },
-    17: { BD: 3 },
-    19: { BD: 5 }
-};
-
 async function loadPositions() {
-    const response = await fetch("../../data/training_sets/training_positions.json");
+    try {
+        const response = await fetch("../../data/training_sets/training_positions.json");
 
-    positions = await response.json();
-    filteredPositions = positions;
+        if (!response.ok) {
+            throw new Error("Training-Datei konnte nicht geladen werden");
+        }
 
-    showPosition();
+        positions = await response.json();
+        filteredPositions = positions;
+
+        showPosition();
+    } catch (error) {
+        positionText.textContent = "Fehler beim Laden der Positionen.";
+        console.error(error);
+    }
 }
 
 function clonePosition(position) {
@@ -64,9 +62,7 @@ function getBoardPosition(position) {
 }
 
 function parseFirstMove(moveText) {
-    const parts = moveText
-        .replaceAll("*", "")
-        .split(" ");
+    const parts = moveText.replaceAll("*", "").split(" ");
 
     for (const part of parts) {
         if (!part.includes("/")) continue;
@@ -89,9 +85,7 @@ function parseFirstMove(moveText) {
 function applyMove(boardPosition, player, moveText) {
     const newPosition = clonePosition(boardPosition);
 
-    const parts = moveText
-        .replaceAll("*", "")
-        .split(" ");
+    const parts = moveText.replaceAll("*", "").split(" ");
 
     for (const part of parts) {
         if (!part.includes("/")) continue;
@@ -140,7 +134,10 @@ function setFilter(player) {
 }
 
 function showPosition() {
-    if (filteredPositions.length === 0) return;
+    if (filteredPositions.length === 0) {
+        positionText.textContent = "Keine Positionen gefunden.";
+        return;
+    }
 
     trainingFinished = false;
 
@@ -153,42 +150,33 @@ function showPosition() {
     document.getElementById("progressText").textContent =
         `Position ${currentIndex + 1} / ${filteredPositions.length}`;
 
-    const percent =
-        ((currentIndex + 1) / filteredPositions.length) * 100;
+    const percent = ((currentIndex + 1) / filteredPositions.length) * 100;
 
-    document.getElementById("progressFill").style.width =
-        percent + "%";
+    document.getElementById("progressFill").style.width = percent + "%";
 
     positionText.textContent =
         `${position.player} am Zug – Würfel ${position.dice}`;
 
-    window.backgammonBoard.drawPosition(
-        getBoardPosition(position)
-    );
+    window.backgammonBoard.drawPosition(getBoardPosition(position));
 
     solution.classList.add("hidden");
-
     solution.innerHTML = "";
 }
 
 function revealSolution() {
     if (trainingFinished) return;
 
-    const position =
-        filteredPositions[currentIndex];
+    const position = filteredPositions[currentIndex];
 
-    const startPosition =
-        getBoardPosition(position);
+    const startPosition = getBoardPosition(position);
 
-    const afterPlayedMove =
-        applyMove(
-            startPosition,
-            position.player,
-            position.played_move
-        );
+    const afterPlayedMove = applyMove(
+        startPosition,
+        position.player,
+        position.played_move
+    );
 
-    const firstMove =
-        parseFirstMove(position.played_move);
+    const firstMove = parseFirstMove(position.played_move);
 
     positionText.textContent =
         `🔴 Gespielter Zug: ${position.played_move}`;
@@ -264,11 +252,9 @@ function showFinishedScreen() {
     document.getElementById("progressText").textContent =
         "Training abgeschlossen";
 
-    document.getElementById("progressFill").style.width =
-        "100%";
+    document.getElementById("progressFill").style.width = "100%";
 
-    positionText.textContent =
-        "🎉 Training abgeschlossen";
+    positionText.textContent = "🎉 Training abgeschlossen";
 
     solution.classList.remove("hidden");
 
