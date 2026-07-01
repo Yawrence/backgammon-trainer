@@ -34,14 +34,34 @@ function clonePosition(position) {
     return JSON.parse(JSON.stringify(position));
 }
 
-function getBoardPosition(position) {
-    return position.board || defaultPosition;
+function getStartPosition(position) {
+    return position.start_position || position.board || defaultPosition;
 }
 
-function parseFirstMove(moveText) {
+function getPlayedMove(position) {
+    if (position.played && position.played.move) {
+        return position.played.move;
+    }
+
+    return position.played_move;
+}
+
+function getBestMove(position) {
+    if (position.best && position.best.move) {
+        return position.best.move;
+    }
+
+    return position.best_move;
+}
+
+function parseMoveSteps(moveText) {
+    if (!moveText) return [];
+
     const parts = moveText
         .replaceAll("*", "")
         .split(" ");
+
+    const steps = [];
 
     for (const part of parts) {
         if (!part.includes("/")) continue;
@@ -54,51 +74,79 @@ function parseFirstMove(moveText) {
         const to = Number(toText);
 
         if (from && to) {
-            return { from, to };
+            steps.push({ from, to });
         }
     }
 
-    return null;
+    return steps;
 }
 
-function applyMove(boardPosition, player, moveText) {
-    const newPosition = clonePosition(boardPosition);
-
-    const parts = moveText
-        .replaceAll("*", "")
-        .split(" ");
-
-    for (const part of parts) {
-        if (!part.includes("/")) continue;
-
-        const [fromText, toText] = part.split("/");
-
-        if (fromText === "bar") continue;
-
-        const from = Number(fromText);
-        const to = Number(toText);
-
-        if (!from || !to) continue;
-
-        if (!newPosition[from]) newPosition[from] = {};
-        if (!newPosition[to]) newPosition[to] = {};
-
-        if (!newPosition[from][player]) continue;
-
-        newPosition[from][player]--;
-
-        if (newPosition[from][player] <= 0) {
-            delete newPosition[from][player];
-        }
-
-        if (!newPosition[to][player]) {
-            newPosition[to][player] = 0;
-        }
-
-        newPosition[to][player]++;
+function getPlayedSteps(position) {
+    if (position.played && position.played.steps) {
+        return position.played.steps;
     }
 
+    return parseMoveSteps(getPlayedMove(position));
+}
+
+function getBestSteps(position) {
+    if (position.best && position.best.steps) {
+        return position.best.steps;
+    }
+
+    return parseMoveSteps(getBestMove(position));
+}
+
+function applyStep(boardPosition, player, step) {
+    const newPosition = clonePosition(boardPosition);
+
+    const from = step.from;
+    const to = step.to;
+
+    if (!newPosition[from]) newPosition[from] = {};
+    if (!newPosition[to]) newPosition[to] = {};
+
+    if (!newPosition[from][player]) {
+        return newPosition;
+    }
+
+    newPosition[from][player]--;
+
+    if (newPosition[from][player] <= 0) {
+        delete newPosition[from][player];
+    }
+
+    if (!newPosition[to][player]) {
+        newPosition[to][player] = 0;
+    }
+
+    newPosition[to][player]++;
+
     return newPosition;
+}
+
+function buildAnimationSequence(startPosition, player, steps) {
+    const sequence = [];
+    let current = clonePosition(startPosition);
+
+    for (const step of steps) {
+        const next = applyStep(current, player, step);
+
+        sequence.push({
+            startPosition: current,
+            endPosition: next,
+            player,
+            from: step.from,
+            to: step.to
+        });
+
+        current = next;
+    }
+
+    return {
+        sequence,
+        finalPosition: current
+    };
 }
 
 function setFilter(player) {
@@ -138,7 +186,7 @@ function showPosition() {
         `${position.player} am Zug – Würfel ${position.dice}`;
 
     window.backgammonBoard.drawPosition(
-        getBoardPosition(position)
+        getStartPosition(position)
     );
 
     solution.classList.add("hidden");
@@ -149,34 +197,33 @@ function revealSolution() {
     if (trainingFinished) return;
 
     const position = filteredPositions[currentIndex];
+    const startPosition = getStartPosition(position);
+    const playedSteps = getPlayedSteps(position);
+    const playedMove = getPlayedMove(position);
 
-    const startPosition = getBoardPosition(position);
-
-    const afterPlayedMove = applyMove(
-        startPosition,
-        position.player,
-        position.played_move
-    );
-
-    const firstMove = parseFirstMove(position.played_move);
+    const animation =
+        buildAnimationSequence(
+            startPosition,
+            position.player,
+            playedSteps
+        );
 
     positionText.textContent =
-        `🔴 Gespielter Zug: ${position.played_move}`;
+        `🔴 Gespielter Zug: ${playedMove}`;
 
     revealButton.disabled = true;
 
-    if (!firstMove) {
-        window.backgammonBoard.drawPosition(afterPlayedMove);
+    if (animation.sequence.length === 0) {
+        window.backgammonBoard.drawPosition(
+            animation.finalPosition
+        );
+
         finishReveal(position);
         return;
     }
 
-    window.backgammonBoard.animateMove(
-        startPosition,
-        afterPlayedMove,
-        position.player,
-        firstMove.from,
-        firstMove.to,
+    window.backgammonBoard.animateMoveSequence(
+        animation.sequence,
         function() {
             finishReveal(position);
         }
@@ -186,17 +233,20 @@ function revealSolution() {
 function finishReveal(position) {
     revealed = true;
 
+    const playedMove = getPlayedMove(position);
+    const bestMove = getBestMove(position);
+
     solution.classList.remove("hidden");
 
     solution.innerHTML = `
         <h3>Auflösung</h3>
 
         <p class="played">
-            🔴 Gespielt: ${position.played_move}
+            🔴 Gespielt: ${playedMove}
         </p>
 
         <p class="best">
-            🟢 GNU: ${position.best_move}
+            🟢 GNU: ${bestMove}
         </p>
 
         <p>
