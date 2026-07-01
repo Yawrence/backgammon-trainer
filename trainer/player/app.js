@@ -9,7 +9,6 @@ const positionText = document.getElementById("positionText");
 const revealButton = document.getElementById("revealButton");
 const solution = document.getElementById("solution");
 
-const boardPositions = {
     1: {
         24: { BD: 1 },
         23: { BD: 1 },
