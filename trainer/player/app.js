@@ -9,20 +9,6 @@ const positionText = document.getElementById("positionText");
 const revealButton = document.getElementById("revealButton");
 const solution = document.getElementById("solution");
 
-const boardPositions = {
-    1: {
-        24: { Oli: 2 },
-        13: { Oli: 5 },
-        8: { Oli: 3 },
-        6: { Oli: 5 },
-
-        1: { BD: 2 },
-        12: { BD: 5 },
-        17: { BD: 3 },
-        19: { BD: 5 }
-    }
-};
-
 const defaultPosition = {
     24: { Oli: 2 },
     13: { Oli: 5 },
@@ -36,21 +22,12 @@ const defaultPosition = {
 };
 
 async function loadPositions() {
-    try {
-        const response = await fetch("../../data/training_sets/training_positions.json");
+    const response = await fetch("../../data/training_sets/training_positions.json");
 
-        if (!response.ok) {
-            throw new Error("Training-Datei konnte nicht geladen werden");
-        }
+    positions = await response.json();
+    filteredPositions = positions;
 
-        positions = await response.json();
-        filteredPositions = positions;
-
-        showPosition();
-    } catch (error) {
-        positionText.textContent = "Fehler beim Laden der Positionen.";
-        console.error(error);
-    }
+    showPosition();
 }
 
 function clonePosition(position) {
@@ -58,11 +35,13 @@ function clonePosition(position) {
 }
 
 function getBoardPosition(position) {
-    return boardPositions[position.id] || defaultPosition;
+    return position.board || defaultPosition;
 }
 
 function parseFirstMove(moveText) {
-    const parts = moveText.replaceAll("*", "").split(" ");
+    const parts = moveText
+        .replaceAll("*", "")
+        .split(" ");
 
     for (const part of parts) {
         if (!part.includes("/")) continue;
@@ -85,7 +64,9 @@ function parseFirstMove(moveText) {
 function applyMove(boardPosition, player, moveText) {
     const newPosition = clonePosition(boardPosition);
 
-    const parts = moveText.replaceAll("*", "").split(" ");
+    const parts = moveText
+        .replaceAll("*", "")
+        .split(" ");
 
     for (const part of parts) {
         if (!part.includes("/")) continue;
@@ -134,10 +115,7 @@ function setFilter(player) {
 }
 
 function showPosition() {
-    if (filteredPositions.length === 0) {
-        positionText.textContent = "Keine Positionen gefunden.";
-        return;
-    }
+    if (filteredPositions.length === 0) return;
 
     trainingFinished = false;
 
@@ -150,14 +128,18 @@ function showPosition() {
     document.getElementById("progressText").textContent =
         `Position ${currentIndex + 1} / ${filteredPositions.length}`;
 
-    const percent = ((currentIndex + 1) / filteredPositions.length) * 100;
+    const percent =
+        ((currentIndex + 1) / filteredPositions.length) * 100;
 
-    document.getElementById("progressFill").style.width = percent + "%";
+    document.getElementById("progressFill").style.width =
+        percent + "%";
 
     positionText.textContent =
         `${position.player} am Zug – Würfel ${position.dice}`;
 
-    window.backgammonBoard.drawPosition(getBoardPosition(position));
+    window.backgammonBoard.drawPosition(
+        getBoardPosition(position)
+    );
 
     solution.classList.add("hidden");
     solution.innerHTML = "";
@@ -252,9 +234,11 @@ function showFinishedScreen() {
     document.getElementById("progressText").textContent =
         "Training abgeschlossen";
 
-    document.getElementById("progressFill").style.width = "100%";
+    document.getElementById("progressFill").style.width =
+        "100%";
 
-    positionText.textContent = "🎉 Training abgeschlossen";
+    positionText.textContent =
+        "🎉 Training abgeschlossen";
 
     solution.classList.remove("hidden");
 
