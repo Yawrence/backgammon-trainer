@@ -1,0 +1,38 @@
+{
+  "id": 1,
+  "source": {
+    "file": "260623_xx01_Oli_2P.pdf",
+    "image": "trainer/assets/positions/position_001.png",
+    "move_number": 2
+  },
+  "player": "Oli",
+  "dice": "54",
+  "severity": "zweifelhaft",
+  "equity_loss": 0.031,
+  "start_position": {
+    "24": { "Oli": 2 },
+    "13": { "Oli": 5 },
+    "8": { "Oli": 3 },
+    "6": { "Oli": 5 },
+    "1": { "BD": 2 },
+    "12": { "BD": 5 },
+    "17": { "BD": 3 },
+    "19": { "BD": 5 }
+  },
+  "played": {
+    "move": "13/9 13/8",
+    "steps": [
+      { "from": 13, "to": 9 },
+      { "from": 13, "to": 8 }
+    ]
+  },
+  "best": {
+    "move": "24/20 6/1*",
+    "steps": [
+      { "from": 24, "to": 20 },
+      { "from": 6, "to": 1, "hit": true }
+    ]
+  },
+  "coach_comment": "GNU bevorzugt den aggressiven Hit statt der passiven Entwicklung.",
+  "tags": ["opening", "checker-play"]
+}
