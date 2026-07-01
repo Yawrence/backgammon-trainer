@@ -8,20 +8,32 @@ let trainingFinished = false;
 const positionText = document.getElementById("positionText");
 const revealButton = document.getElementById("revealButton");
 const solution = document.getElementById("solution");
-
+const boardPositions = {
     1: {
-        24: { BD: 1 },
-        23: { BD: 1 },
+        24: { Oli: 2 },
         13: { Oli: 5 },
-        9: { BD: 1 },
         8: { Oli: 3 },
         6: { Oli: 5 },
-        1: { Oli: 2 },
+
+        1: { BD: 2 },
         12: { BD: 5 },
         17: { BD: 3 },
-        19: { BD: 4 }
+        19: { BD: 5 }
     }
 };
+
+const defaultPosition = {
+    24: { Oli: 2 },
+    13: { Oli: 5 },
+    8: { Oli: 3 },
+    6: { Oli: 5 },
+
+    1: { BD: 2 },
+    12: { BD: 5 },
+    17: { BD: 3 },
+    19: { BD: 5 }
+};
+
 
 const defaultPosition = {
     24: { BD: 2 },
